@@ -1,0 +1,17 @@
+{
+	"font_size": 14,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"numix_sidebar_tree_large": true,
+	"numix_sidebar_tree_medium": true,
+	"numix_sidebar_tree_small": true,
+	"numix_sidebar_tree_xlarge": true,
+	"numix_sidebar_tree_xsmall": true,
+	"numix_small_tabs": true,
+	"numix_xsmall_tabs": true,
+	"tab_size": 2,
+	"theme": "Numix.sublime-theme",
+	"translate_tabs_to_spaces": true
+}
