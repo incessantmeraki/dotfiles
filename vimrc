@@ -64,6 +64,14 @@ vnoremap <C-j> <Esc>
 inoremap <C-c> <Esc>
 vnoremap <C-c> <Esc>
 
+" Permanent undo
+set undodir=~/.vimdid
+set undofile
+
+" Jump to start and end of line using the home row keys
+map H ^
+map L $
+
 
 " ====================
 " GUI Settings
