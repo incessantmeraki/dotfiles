@@ -1,4 +1,5 @@
 set shell=/bin/bash
+let mapleader = "\<Space>"
 
 " ====================
 " PLUGINS
@@ -6,8 +7,7 @@ set shell=/bin/bash
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-commentary'               
-Plug 'tpope/vim-surround'                
-Plug 'tpope/vim-fugitive'                
+Plug 'tpope/vim-fugitive'
 Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'machakann/vim-highlightedyank'
@@ -16,8 +16,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'ekalinin/Dockerfile.vim'
+Plug 'w0rp/ale'
 
-""Plug 'w0rp/ale'                       
 call plug#end()
 
 " ====================
@@ -72,22 +72,15 @@ set undofile
 map H ^
 map L $
 
-
-" ====================
-" GUI Settings
-" ====================
-set laststatus=2
-
-
+"Fuzzy searching for files
 map <C-p> :Files<CR>
-" Ale Plugin
-" ==========
-"let g:ale_fixers = { 'javascript': ['prettier-standard'] }
-"let g:ale_fix_on_save =  1
-"
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
+
+"Hot keys
+nmap <leader>; :Buffers<CR>
+nmap <leader>w :w<CR>
+nnoremap <leader><leader> <c-^>
+noremap <leader>s :Rg
+
 
 "Disable arrow keys
 nnoremap <up> <nop>
@@ -96,3 +89,25 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <right> <nop>
 inoremap <left> <nop>
+
+" ====================
+" GUI Settings
+" ====================
+set laststatus=2
+
+
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+if executable('rg')
+  set grepprg=rg\ --no-heading\ --vimgrep
+  set grepformat=%f:%l:%c:%m
+endif
+
+" Ale Plugin
+" ==========
+"let g:ale_fixers = { 'javascript': ['prettier-standard'] }
+"let g:ale_fix_on_save =  1
+"
+
