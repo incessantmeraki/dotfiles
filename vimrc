@@ -17,6 +17,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'w0rp/ale'
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -90,12 +91,10 @@ inoremap <down> <nop>
 inoremap <right> <nop>
 inoremap <left> <nop>
 
-" ====================
-" GUI Settings
-" ====================
+"Always set status bar
 set laststatus=2
 
-
+"Grepping inside vim
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
@@ -105,9 +104,12 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
-" Ale Plugin
+" ale Configs
 " ==========
-"let g:ale_fixers = { 'javascript': ['prettier-standard'] }
-"let g:ale_fix_on_save =  1
-"
-
+let g:airline#extensions#ale#enabled = 1
+highlight ALEError ctermbg=None
+highlight ALEWarning ctermbg=None
+let g:ale_sign_error = "✖"
+let g:ale_sign_warning = "⚠"
+let g:ale_sign_info = "i"
+let g:ale_sign_hint = "➤"
