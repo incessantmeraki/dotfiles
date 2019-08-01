@@ -6,8 +6,9 @@ let mapleader = "\<Space>"
 " ====================
 call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-commentary'               
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'machakann/vim-highlightedyank'
@@ -18,6 +19,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'w0rp/ale'
 Plug 'rust-lang/rust.vim'
+Plug 'Raimondi/delimitMate'
+
 
 call plug#end()
 
@@ -43,7 +46,7 @@ syntax on
 " Matching bracket highlight
 set showmatch
 
-" Use 2 spaces 
+" Use 2 spaces
 set smartindent
 set shiftwidth=2
 set tabstop=2
@@ -95,10 +98,6 @@ inoremap <left> <nop>
 set laststatus=2
 
 "Grepping inside vim
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
-
 if executable('rg')
   set grepprg=rg\ --no-heading\ --vimgrep
   set grepformat=%f:%l:%c:%m
@@ -107,9 +106,21 @@ endif
 " ale Configs
 " ==========
 let g:airline#extensions#ale#enabled = 1
+let g:ale_fix_on_save = 1
 highlight ALEError ctermbg=None
 highlight ALEWarning ctermbg=None
 let g:ale_sign_error = "✖"
 let g:ale_sign_warning = "⚠"
 let g:ale_sign_info = "i"
 let g:ale_sign_hint = "➤"
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'yaml': ['prettier'],
+\   'json': ['prettier'],
+\   'javascript': ['prettier'],
+\   'typescript': ['prettier', 'tslint'],
+\}
+let g:ale_linters = {
+\   'javascript': ['prettier', 'eslint'],
+\   'typescript': ['prettier', 'tslint'],
+\}
