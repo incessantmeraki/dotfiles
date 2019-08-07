@@ -17,8 +17,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'ekalinin/Dockerfile.vim'
-Plug 'w0rp/ale'
 Plug 'rust-lang/rust.vim'
+Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
 
 
@@ -121,6 +121,6 @@ let g:ale_fixers = {
 \   'typescript': ['prettier', 'tslint'],
 \}
 let g:ale_linters = {
-\   'javascript': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'tslint'],
+\   'javascript': ['eslint'],
+\   'typescript': ['tsserver', 'tslint'],
 \}
