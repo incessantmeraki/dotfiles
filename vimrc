@@ -5,7 +5,6 @@ let mapleader = "\<Space>"
 " PLUGINS
 " ====================
 call plug#begin('~/.vim/plugged')
-
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -20,8 +19,6 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
-
-
 call plug#end()
 
 " ====================
@@ -118,9 +115,9 @@ let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \   'json': ['prettier'],
 \   'javascript': ['prettier'],
-\   'typescript': ['prettier', 'tslint'],
+\   'typescript': ['prettier', 'eslint'],
 \}
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'typescript': ['tsserver', 'tslint'],
+\   'typescript': ['tsserver', 'eslint'],
 \}
