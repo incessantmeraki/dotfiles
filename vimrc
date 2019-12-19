@@ -15,10 +15,14 @@ Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'ekalinin/Dockerfile.vim'
 Plug 'rust-lang/rust.vim'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
+Plug 'autozimu/LanguageClient-neovim', {
+\ 'branch': 'next',
+\ 'do': 'bash install.sh',
+\ }
 call plug#end()
 
 " ====================
@@ -43,7 +47,9 @@ syntax on
 " Matching bracket highlight
 set showmatch
 
-" Use 2 spaces
+" Indentation and display
+filetype plugin on
+filetype indent on
 set smartindent
 set shiftwidth=2
 set tabstop=2
@@ -82,7 +88,6 @@ nmap <leader>w :w<CR>
 nnoremap <leader><leader> <c-^>
 noremap <leader>s :Rg
 
-
 "Disable arrow keys
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -100,24 +105,52 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
+" Language Server
+" ==========
+let g:LanguageClient_serverCommands = {
+\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+\ 'javascript': ['javascript-typescript-langserver'],
+\ 'typescript': ['tsserver'],
+\ }
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+noremap <silent> R :call LanguageClient_textDocument_rename()<CR>
+let g:LanguageClient_loggingLevel = 'DEBUG'
+
+
 " ale Configs
 " ==========
+let g:ale_completion_enabled = 1         " Enable completion where enabled.
+let g:ale_set_balloons = 1               " Highlight information on the fly.
+let g:ale_set_highlights = 1             " Highlight code in file.
+let g:ale_set_loclist = 0                " Don't use loclist.
+let g:ale_lint_on_save = 1               " lint js.
+let g:ale_fix_on_save = 1                " Auto fix js.
+let g:ale_list_window_size = 5           " Shrink the suggestion window
+let g:ale_completion_max_numbers = 20    " Max suggestions.
 let g:airline#extensions#ale#enabled = 1
-let g:ale_fix_on_save = 1
-highlight ALEError ctermbg=None
-highlight ALEWarning ctermbg=None
+highlight ALEStyleWarning ctermfg=Black
+highlight ALEStyleWarning ctermbg=Yellow
+highlight ALEWarning ctermfg=Black
+highlight ALEWarning ctermbg=Yellow
+highlight ALEStyleError ctermfg=Black
+highlight ALEStyleError ctermbg=Red
+highlight ALEError ctermfg=Black
+highlight ALEError ctermbg=Red
 let g:ale_sign_error = "✖"
 let g:ale_sign_warning = "⚠"
 let g:ale_sign_info = "i"
 let g:ale_sign_hint = "➤"
+let g:ale_linters = {
+\   'typescript': ['eslint'],
+\   'javascript': ['standard'],
+\}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'yaml': ['prettier'],
+\   'html': ['prettier'],
 \   'json': ['prettier'],
-\   'javascript': ['prettier'],
 \   'typescript': ['prettier', 'eslint'],
-\}
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'typescript': ['tsserver', 'eslint'],
+\   'javascript': ['prettier-standard'],
 \}
