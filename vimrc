@@ -109,8 +109,7 @@ endif
 " ==========
 let g:LanguageClient_serverCommands = {
 \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-\ 'javascript': ['javascript-typescript-langserver'],
-\ 'typescript': ['tsserver'],
+\ 'javascript': ['javascript-typescript-stdio']
 \ }
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
@@ -143,7 +142,7 @@ let g:ale_sign_warning = "⚠"
 let g:ale_sign_info = "i"
 let g:ale_sign_hint = "➤"
 let g:ale_linters = {
-\   'typescript': ['eslint'],
+\   'typescript': ['tsserver', 'eslint'],
 \   'javascript': ['standard'],
 \}
 let g:ale_fixers = {
