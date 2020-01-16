@@ -105,11 +105,20 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
+" Clipboard
+" =========
+set clipboard^=unnamed,unnamedplus
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
+
 " Language Server
 " ==========
 let g:LanguageClient_serverCommands = {
 \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-\ 'javascript': ['javascript-typescript-stdio']
+\ 'javascript': ['javascript-typescript-stdio'],
+\ 'typescript': ['javascript-typescript-stdio']
 \ }
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
