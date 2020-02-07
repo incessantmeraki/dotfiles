@@ -23,6 +23,13 @@ Plug 'autozimu/LanguageClient-neovim', {
 \ 'branch': 'next',
 \ 'do': 'bash install.sh',
 \ }
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 call plug#end()
 
 " ====================
@@ -105,6 +112,9 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
+"Enable autocomplete
+let g:deoplete#enable_at_startup = 1
+
 " Clipboard
 " =========
 set clipboard^=unnamed,unnamedplus
@@ -115,10 +125,12 @@ imap <C-v> <C-r><C-o>+
 
 " Language Server
 " ==========
+autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 let g:LanguageClient_serverCommands = {
 \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 \ 'javascript': ['javascript-typescript-stdio'],
-\ 'typescript': ['javascript-typescript-stdio']
+\ 'typescript': ['javascript-typescript-stdio'],
+\ 'typescript.tsx': ['javascript-typescript-stdio']
 \ }
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
