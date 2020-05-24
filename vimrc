@@ -2,7 +2,7 @@ set shell=/bin/bash
 let mapleader = "\<Space>"
 
 " ====================
-" PLUGINS
+"l PLUGINS
 " ====================
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary'
@@ -15,10 +15,12 @@ Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'rust-lang/rust.vim'
+" Plug 'rust-lang/rust.vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'preservim/nerdtree'
 Plug 'autozimu/LanguageClient-neovim', {
 \ 'branch': 'next',
 \ 'do': 'bash install.sh',
@@ -30,6 +32,8 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+" Plug 'tpope/vim-dispatch'
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 call plug#end()
 
 " ====================
@@ -62,6 +66,7 @@ set shiftwidth=2
 set tabstop=2
 set expandtab
 set smarttab
+autocmd FileType cs setlocal shiftwidth=4
 
 "display row and column
 set ruler
@@ -94,6 +99,8 @@ nmap <leader>; :Buffers<CR>
 nmap <leader>w :w<CR>
 nnoremap <leader><leader> <c-^>
 noremap <leader>s :Rg
+noremap <leader>t :AleToggle
+nmap <C-n> :NERDTreeToggle<CR>
 
 "Disable arrow keys
 nnoremap <up> <nop>
@@ -127,17 +134,18 @@ imap <C-v> <C-r><C-o>+
 " ==========
 autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 let g:LanguageClient_serverCommands = {
-\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+\ 'rust': ['rust-analyzer'],
 \ 'javascript': ['javascript-typescript-stdio'],
 \ 'typescript': ['javascript-typescript-stdio'],
-\ 'typescript.tsx': ['javascript-typescript-stdio']
+\ 'typescript.tsx': ['javascript-typescript-stdio'],
+\ 'cs': ['/Users/akandel/.cache/omnisharp-vim/omnisharp-roslyn/run'],
 \ }
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> gi :call LanguageClient_textDocument_implementation()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 noremap <silent> R :call LanguageClient_textDocument_rename()<CR>
-let g:LanguageClient_loggingLevel = 'DEBUG'
-
+" let g:LanguageClient_loggingLevel = 'DEBUG'
 
 " ale Configs
 " ==========
@@ -164,7 +172,8 @@ let g:ale_sign_info = "i"
 let g:ale_sign_hint = "➤"
 let g:ale_linters = {
 \   'typescript': ['tsserver', 'eslint'],
-\   'javascript': ['standard'],
+\   'javascript': ['eslint'],
+\   'cs': ['OmniSharp'],
 \}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -174,3 +183,42 @@ let g:ale_fixers = {
 \   'typescript': ['prettier', 'eslint'],
 \   'javascript': ['prettier-standard'],
 \}
+
+" OmniSharp Configs
+" ==========
+" let g:OmniSharp_server_stdio = 1
+let g:omnicomplete_fetch_full_documentation = 1
+filetype indent plugin on
+augroup omnisharp_commands
+  autocmd!
+
+  " Show type information automatically when the cursor stops moving.
+  " Note that the type is echoed to the Vim command line, and will overwrite
+  " any other messages in this space including e.g. ALE linting messages.
+  autocmd CursorHold *.cs OmniSharpTypeLookup
+
+  " The following commands are contextual, based on the cursor position.
+  autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+
+  " Finds members in the current buffer
+  autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+
+  autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+  autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
+  autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+
+  " Navigate up and down by method/property/field
+  autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+  autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+
+  " fINd all code errors/warnings for the current solution and populate the quickfix window
+  autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+
+  " format code
+  autocmd FileType cs nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
+augroup END
