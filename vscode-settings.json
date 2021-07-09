@@ -1,0 +1,40 @@
+{
+    "editor.formatOnSave": true,
+    "window.zoomLevel": 1,
+    //Vim Plugins settings
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    // make control + something in vscode work
+    "vim.useCtrlKeys": false,
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.surround": true,
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        },
+        {
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+        {
+            "before": [
+                "leader",
+                "w"
+            ],
+            "commands": [
+                "workbench.action.files.save",
+            ]
+        }
+    ]
+}
