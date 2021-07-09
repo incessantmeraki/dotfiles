@@ -1,11 +1,9 @@
 {
     "editor.formatOnSave": true,
     "window.zoomLevel": 1,
-    //Vim Plugins settings
     "vim.easymotion": true,
     "vim.incsearch": true,
     "vim.useSystemClipboard": true,
-    // make control + something in vscode work
     "vim.useCtrlKeys": false,
     "vim.hlsearch": true,
     "vim.leader": "<space>",
