@@ -1,10 +1,18 @@
 {
     "editor.formatOnSave": true,
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 2,
+    //Vim Plugins settings
     "vim.easymotion": true,
     "vim.incsearch": true,
     "vim.useSystemClipboard": true,
-    "vim.useCtrlKeys": false,
+    // make control + something in vscode work
+    "vim.useCtrlKeys": true,
+    "vim.handleKeys": {
+        "<C-b>": false,
+        "<C-j>": false,
+        "<C-f>": false,
+        "<C-k>": false
+    },
     "vim.hlsearch": true,
     "vim.leader": "<space>",
     "vim.surround": true,
@@ -34,5 +42,6 @@
                 "workbench.action.files.save",
             ]
         }
-    ]
+    ],
+    "workbench.colorTheme": "Atelier_DuneDark"
 }
